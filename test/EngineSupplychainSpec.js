@@ -8,7 +8,7 @@ const helpers = require('./helpers')
 
 require('chai').should()
 
-const namespace = 'org.acme.enginesupplychain'
+const namespace = 'org.example.compnetwork'
 
 describe('EngineSupplychainSpec', () => {
     // In-memory card store for testing so cards are not persisted to the file system
