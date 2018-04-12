@@ -23,8 +23,8 @@ concept Address {
  * Assets
  */
 
-asset Engine identified by engineId {
-    o String engineId
+asset Engine identified by componentId {
+    o String componentId
     o EngineProperties data
 
     --> Manufacturer manufacturer
@@ -58,12 +58,12 @@ participant Merchant extends Member {
  */
 
 transaction EngineMerchantTransfer {
- 	  --> Engine engine
+ 	  --> Engine component
     --> Merchant merchant
 }
 
 transaction EngineCarInstallation {
-    --> Engine engine
+    --> Engine component
     --> Car car
 }
 
@@ -79,11 +79,11 @@ transaction CarCreation {
 // TODO: transaction logic and unit tests not yet implemented
 
 // transaction WarrantyClaim {
-//     --> Engine engine
+//     --> Engine component
 //     --> Car car
 // }
 
 // transaction StolenReport {
-//     --> Engine engine
+//     --> Engine component
 //     --> Car car
 // }

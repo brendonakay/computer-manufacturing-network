@@ -13,19 +13,19 @@ function createMerchant(namespace, factory, id) {
 }
 
 function createEngine(namespace, factory, id, manufacturer) {
-    const engine = factory.newResource(namespace, 'Engine', id)
-    const engineProps = factory.newConcept(namespace, 'EngineProperties')
+    const component = factory.newResource(namespace, 'Engine', id)
+    const componentProps = factory.newConcept(namespace, 'EngineProperties')
 
-    engineProps.brand = 'Mercedes'
-    engineProps.model = 'V12'
-    engineProps.horsePower = 400
-    engineProps.cubicCapacity = 4000
-    engineProps.cylindersAmount = 12
+    componentProps.brand = 'Mercedes'
+    componentProps.model = 'V12'
+    componentProps.horsePower = 400
+    componentProps.cubicCapacity = 4000
+    componentProps.cylindersAmount = 12
 
-    engine.data = engineProps
-    engine.manufacturer = factory.newRelationship(namespace, 'Manufacturer', manufacturer.$identifier)
+    component.data = componentProps
+    component.manufacturer = factory.newRelationship(namespace, 'Manufacturer', manufacturer.$identifier)
 
-    return engine
+    return component
 }
 
 function createCar(namespace, factory, id) {
