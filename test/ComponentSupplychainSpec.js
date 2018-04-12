@@ -10,7 +10,7 @@ require('chai').should()
 
 const namespace = 'org.example.compnetwork'
 
-describe('EngineSupplychainSpec', () => {
+describe('ComponentSupplychainSpec', () => {
     // In-memory card store for testing so cards are not persisted to the file system
     const cardStore = require('composer-common').NetworkCardStoreManager.getCardStore( { type: 'composer-wallet-inmemory' } )
     let adminConnection
@@ -19,7 +19,7 @@ describe('EngineSupplychainSpec', () => {
     // test resources
     let testManufacturer
     let testMerchant
-    let testEngine
+    let testComponent
     let testCar
 
     // and their registries
@@ -84,26 +84,26 @@ describe('EngineSupplychainSpec', () => {
         const factory = bnc.getBusinessNetwork().getFactory()
         manufacturerRegistry = await bnc.getParticipantRegistry(namespace + '.Manufacturer')
         merchantRegistry = await bnc.getParticipantRegistry(namespace + '.Merchant')
-        componentRegistry = await bnc.getAssetRegistry(namespace + '.Engine')
+        componentRegistry = await bnc.getAssetRegistry(namespace + '.Component')
         carRegistry = await bnc.getAssetRegistry(namespace + '.Car')
 
         testManufacturer = helpers.createManufacturer(namespace, factory, 'test-manufacturer')
         testMerchant = helpers.createMerchant(namespace, factory, 'test-merchant')
-        testEngine = helpers.createEngine(namespace, factory, 'test-component', testManufacturer)
+        testComponent = helpers.createComponent(namespace, factory, 'test-component', testManufacturer)
         testCar = helpers.createCar(namespace, factory, 'test-car')
 
         await manufacturerRegistry.addAll([testManufacturer])
         await merchantRegistry.addAll([testMerchant])
-        await componentRegistry.addAll([testEngine])
+        await componentRegistry.addAll([testComponent])
         await carRegistry.addAll([testCar])
     })
 
-    describe('createEngineAsset', () => {
-        it('should create an Engine by submitting a valid EngineCreation transaction', async () => {
+    describe('createComponentAsset', () => {
+        it('should create an Component by submitting a valid ComponentCreation transaction', async () => {
             const factory = bnc.getBusinessNetwork().getFactory()
 
-            const componentCreationTrans = factory.newTransaction(namespace, 'EngineCreation')
-            componentCreationTrans.data = factory.newConcept(namespace, 'EngineProperties')
+            const componentCreationTrans = factory.newTransaction(namespace, 'ComponentCreation')
+            componentCreationTrans.data = factory.newConcept(namespace, 'ComponentProperties')
             componentCreationTrans.data.brand = 'Audi'
             componentCreationTrans.data.model = 'Fancy component model'
             componentCreationTrans.data.horsePower = 400
@@ -116,40 +116,40 @@ describe('EngineSupplychainSpec', () => {
 
             await bnc.submitTransaction(componentCreationTrans)
 
-            const allEngines = await componentRegistry.getAll()
-            allEngines.length.should.equal(2)
+            const allComponents = await componentRegistry.getAll()
+            allComponents.length.should.equal(2)
         })
     })
 
-    describe('transferEngineToMerchant', () => {
+    describe('transferComponentToMerchant', () => {
         it('should set the reference to a merchant for an component', async () => {
             const factory = bnc.getBusinessNetwork().getFactory()
 
-            const transferTrans = factory.newTransaction(namespace, 'EngineMerchantTransfer')
+            const transferTrans = factory.newTransaction(namespace, 'ComponentMerchantTransfer')
             transferTrans.merchant = factory.newRelationship(namespace, 'Merchant', testMerchant.$identifier)
-            transferTrans.component = factory.newRelationship(namespace, 'Engine', testEngine.$identifier)
+            transferTrans.component = factory.newRelationship(namespace, 'Component', testComponent.$identifier)
 
             await bnc.submitTransaction(transferTrans)
 
-            const allEngines = await componentRegistry.getAll()
-            allEngines.length.should.equal(1)
-            allEngines[0].merchant.$identifier.should.equal(testMerchant.$identifier)
+            const allComponents = await componentRegistry.getAll()
+            allComponents.length.should.equal(1)
+            allComponents[0].merchant.$identifier.should.equal(testMerchant.$identifier)
         })
     })
 
-    describe('installEngineToCar', () => {
+    describe('installComponentToCar', () => {
         it('should set the reference to a car for an component', async () => {
             const factory = bnc.getBusinessNetwork().getFactory()
 
-            const installTrans = factory.newTransaction(namespace, 'EngineCarInstallation')
-            installTrans.component = factory.newRelationship(namespace, 'Engine', testEngine.$identifier)
+            const installTrans = factory.newTransaction(namespace, 'ComponentCarInstallation')
+            installTrans.component = factory.newRelationship(namespace, 'Component', testComponent.$identifier)
             installTrans.car = factory.newRelationship(namespace, 'Car', testCar.$identifier)
 
             await bnc.submitTransaction(installTrans)
 
-            const allEngines = await componentRegistry.getAll()
-            allEngines.length.should.equal(1)
-            allEngines[0].currentCar.$identifier.should.equal(testCar.$identifier)
+            const allComponents = await componentRegistry.getAll()
+            allComponents.length.should.equal(1)
+            allComponents[0].currentCar.$identifier.should.equal(testCar.$identifier)
         })
     })
 

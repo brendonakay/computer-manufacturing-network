@@ -12,9 +12,9 @@ function createMerchant(namespace, factory, id) {
     return merchant
 }
 
-function createEngine(namespace, factory, id, manufacturer) {
-    const component = factory.newResource(namespace, 'Engine', id)
-    const componentProps = factory.newConcept(namespace, 'EngineProperties')
+function createComponent(namespace, factory, id, manufacturer) {
+    const component = factory.newResource(namespace, 'Component', id)
+    const componentProps = factory.newConcept(namespace, 'ComponentProperties')
 
     componentProps.brand = 'Mercedes'
     componentProps.model = 'V12'
@@ -38,6 +38,6 @@ function createCar(namespace, factory, id) {
 module.exports = {
     createManufacturer,
     createMerchant,
-    createEngine,
+    createComponent,
     createCar
 }

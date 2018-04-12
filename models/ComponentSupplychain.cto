@@ -4,7 +4,7 @@ namespace org.example.compnetwork
  * Concepts
  */
 
-concept EngineProperties {
+concept ComponentProperties {
     o String brand
     o String model
     o Double horsePower
@@ -23,9 +23,9 @@ concept Address {
  * Assets
  */
 
-asset Engine identified by componentId {
+asset Component identified by componentId {
     o String componentId
-    o EngineProperties data
+    o ComponentProperties data
 
     --> Manufacturer manufacturer
     --> Car currentCar optional
@@ -57,19 +57,19 @@ participant Merchant extends Member {
  * Transactions
  */
 
-transaction EngineMerchantTransfer {
- 	  --> Engine component
+transaction ComponentMerchantTransfer {
+ 	  --> Component component
     --> Merchant merchant
 }
 
-transaction EngineCarInstallation {
-    --> Engine component
+transaction ComponentCarInstallation {
+    --> Component component
     --> Car car
 }
 
-transaction EngineCreation {
+transaction ComponentCreation {
     --> Manufacturer manufacturer
-    o EngineProperties data
+    o ComponentProperties data
 }
 
 transaction CarCreation {
@@ -79,11 +79,11 @@ transaction CarCreation {
 // TODO: transaction logic and unit tests not yet implemented
 
 // transaction WarrantyClaim {
-//     --> Engine component
+//     --> Component component
 //     --> Car car
 // }
 
 // transaction StolenReport {
-//     --> Engine component
+//     --> Component component
 //     --> Car car
 // }
