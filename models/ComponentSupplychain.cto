@@ -28,12 +28,12 @@ asset Component identified by componentId {
     o ComponentProperties data
 
     --> Manufacturer manufacturer
-    --> Car currentCar optional
+    --> Computer currentComputer optional
     --> Merchant merchant optional
 }
 
-asset Car identified by carId {
-    o String carId
+asset Computer identified by computerId {
+    o String computerId
     o String legalDocumentId
 }
 
@@ -58,13 +58,13 @@ participant Merchant extends Member {
  */
 
 transaction ComponentMerchantTransfer {
- 	  --> Component component
+ 	--> Component component
     --> Merchant merchant
 }
 
-transaction ComponentCarInstallation {
+transaction ComponentComputerInstallation {
     --> Component component
-    --> Car car
+    --> Computer computer
 }
 
 transaction ComponentCreation {
@@ -72,7 +72,7 @@ transaction ComponentCreation {
     o ComponentProperties data
 }
 
-transaction CarCreation {
+transaction ComputerCreation {
     o String legalIdDocument
 }
 
@@ -80,10 +80,10 @@ transaction CarCreation {
 
 // transaction WarrantyClaim {
 //     --> Component component
-//     --> Car car
+//     --> Computer computer
 // }
 
 // transaction StolenReport {
 //     --> Component component
-//     --> Car car
+//     --> Computer computer
 // }
